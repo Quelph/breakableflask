@@ -1,0 +1,35 @@
+name: Automatisation des tests DevSecOps
+
+on: push
+
+jobs:
+  Dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vérifier requirements.txt
+        run: |
+          if [ ! -f requirements.txt ]; then
+            echo "requirements.txt manquant"
+            exit 1
+          fi
+          echo "requirements.txt présent"
+
+  Dockerfile:
+    runs-on: ubuntu-latest
+    needs: Dependencies
+    steps:
+      - name: Vérifier Dockerfile
+        run: |
+          if [ ! -f Dockerfile ]; then
+            echo "Dockerfile manquant"
+            exit 1
+          fi
+          echo "Dockerfile présent"
+
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: Dockerfile
+    steps:
+      - name: Deploy
+        run: |
+          echo "Rien à faire ici. Votre application est prête à être déployée"
